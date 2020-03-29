@@ -30,7 +30,14 @@ def contact(request):
             "Property Listing Enquiry",
             "There has been an enquiry for "+ listing +". Sign into the admin panel for more info",
             "arbaz05@gmail.com",
-            [realtor_email,'arbaz05@gmail.com'],
+            [realtor_email],
+            fail_silently = False
+        )
+        send_mail(
+            "Enquiry Sent",
+            "Hi "+name+", your enquiry has been sent. A realtor will get back to you.",
+            "arbaz05@gmail.com",
+            [email],
             fail_silently = False
         )
         messages.success(request, "Your request has been submitted, a realtor will get back to you soon")

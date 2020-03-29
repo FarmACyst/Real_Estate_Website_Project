@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from contacts.models import Contact
 
 # Create your views here.
 
@@ -33,6 +35,13 @@ def register(request):
                     # messages.success(request, "You are now logged in")
                     # return redirect('login')
                     user.save()
+                    send_mail(
+                        "Registration",
+                        "Hi "+first_name+", thank you for registering to BT Real Estate. Hope you have a wonderful day.",
+                        "arbaz05@gmail.com",
+                        [email],
+                        fail_silently = False
+                    )
                     messages.success(request, "You are now registered and can login")
                     return redirect('login')
         else:
@@ -66,4 +75,8 @@ def logout(request):
     return redirect('index')
 
 def dashboard(request):
-    return render(request,'accounts/dashboard.html')
+    user_contacts = Contact.objects.order_by('-contact_date').filter(user_id=request.user.id)
+    context = {
+        'contacts': user_contacts
+    }
+    return render(request,'accounts/dashboard.html',context)
