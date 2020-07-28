@@ -38,14 +38,14 @@ def register(request):
                     send_mail(
                         "Registration",
                         "Hi "+first_name+", thank you for registering to BT Real Estate. Hope you have a wonderful day.",
-                        "arbaz05@gmail.com",
+                        "name@email.com",
                         [email],
                         fail_silently = False
                     )
                     messages.success(request, "You are now registered and can login")
                     return redirect('login')
         else:
-            messages.error(request,"Passwords don not match!")
+            messages.error(request,"Passwords do not match!")
             return redirect('register')
     else:
         return render(request,'accounts/register.html')
